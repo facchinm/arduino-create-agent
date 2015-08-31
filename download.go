@@ -90,7 +90,7 @@ func spDownloadTool(name string, url string) {
 
 	if _, err := os.Stat(tempToolsPath + "/" + name); err != nil {
 
-		fileName, err := downloadFromUrl(url + "/" + name + "-" + runtime.GOOS + "-" + runtime.GOARCH + ".zip")
+		fileName, err := downloadFromUrl(url + "/" + name + "-" + runtime.GOOS + "-" + runtime.GOARCH + ".tar.gz")
 		if err != nil {
 			log.Error("Could not download flashing tools!")
 			mapD := map[string]string{"DownloadStatus": "Error", "Msg": err.Error()}
@@ -98,7 +98,7 @@ func spDownloadTool(name string, url string) {
 			h.broadcastSys <- mapB
 			return
 		}
-		err = Unzip(fileName, tempToolsPath)
+		err = UnzipWrapper(fileName, tempToolsPath)
 		if err != nil {
 			log.Error("Could not unzip flashing tools!")
 			mapD := map[string]string{"DownloadStatus": "Error", "Msg": err.Error()}
